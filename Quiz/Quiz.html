@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Copa do mundo 2022</title>
+    <link rel="stylesheet" href="Quiz.css">
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Quiz Copa do Mundo 2022</h1>
+        <div id="question"></div>
+        <div id="options"> 
+            
+            <button class="option" id="btn-0"></button>
+            <button class="option" id="btn-1"></button>
+            <button class="option" id="btn-2"></button>
+            <button class="option" id="btn-3"></button>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container-result"> 
+    <div id="result"> 
+    </div>
+</div>
+
+    <script>
+        let questions = [
+            {
+                question: "Qual o nome do estádio onde aconteceu a final ?",
+                options: ["<i class='fas fa-sun icon'></i>Al-Bayt", "<i class='fas fa-mars icon'></i>Lusail", "<i class='fas fa-moon icon'></i>Ras abu abound", "<i class='fas fa-venus icon'></i>Khalifa intl"],
+                answer: 1,
+                image: "https://img.quizur.com/f/img64f0fb9570cbb3.13032754.jpg?lastEdited=1693514695"
+            },
+            {
+                question: "Qual jogador foi eleito o melhor jogador da copa ?",
+                options: ["<i class='fas fa-water icon'></i>Enzo Fernández", "<i class='fas fa-coins icon'></i>Mbappé", "<i class='fas fa-cog icon'></i>Messi", "<i class='fas fa-leaf icon'></i>Griezmann"],
+                answer: 2,
+                image: "https://midia.gruposinos.com.br/_midias/jpg/2014/07/11/bola_de_ouro-285584.jpg"
+            },
+            {
+                question: "Qual foi o placar final da copa ?",
+                options: ["<i class='fas fa-water icon'></i>Argentina(3) 3 x 3 (2) França", "<i class='fas fa-coins icon'></i>Argentina(4) 3 x 3 (3) França", "<i class='fas fa-cog icon'></i>Argentina 1 x 0 França", "<i class='fas fa-leaf icon'></i>Argentina(4) 3 x 3 (2) França"],
+                answer: 3,
+                image: "https://img.quizur.com/f/img64f10104e92ab0.87380803.jpg?lastEdited=1693516044"
+            },
+             {
+                question: "Quem recebeu o prêmio de artilheiro da copa ?",
+                options: ["<i class='fas fa-water icon'></i>Mbappé", "<i class='fas fa-coins icon'></i>Richarlison", "<i class='fas fa-cog icon'></i>Rodrygo", "<i class='fas fa-leaf icon'></i>Cristiano Ronaldo"],
+                answer: 0,
+                image: "https://static-wp-tor15-prd.torcedores.com/wp-content/uploads/2020/10/chuteira-507x338.jpg"
+            },
+            {
+                question: "Quem fez o gol mais bonito da copa  ?",
+                options: ["<i class='fas fa-water icon'></i>Mbappé", "<i class='fas fa-coins icon'></i>Luis Chávez", "<i class='fas fa-cog icon'></i>Richarlison", "<i class='fas fa-leaf icon'></i>Vicent Aboubakar"],
+                answer: 2,
+                image: "https://jpimg.com.br/uploads/2017/04/2443651277-premio-puskas-da-fifa.jpg"
+            },
+        ];
+
+        var currentQuestion = 0;
+        var remainingAttempts = 3;
+        var score = 20;
+
+        function loadQuestion() {
+            if (currentQuestion < questions.length) {
+                const questionElem = document.getElementById("question");
+                const optionsElem = document.getElementById("options");
+                var resultElem = document.getElementById("result");
+
+                questionElem.innerHTML = questions[currentQuestion].question;
+
+                optionsElem.innerHTML = "";
+                for (let i = 0; i < 4; i++) {
+                    const optionBtn = document.createElement("button");
+                    optionBtn.className = "option";
+                    optionBtn.innerHTML = questions[currentQuestion].options[i];
+                    optionBtn.addEventListener("click", () => checkAnswer(i));
+                    optionsElem.appendChild(optionBtn);
+                }
+
+                const imageElem = document.createElement("img");
+                imageElem.src = questions[currentQuestion].image;
+                imageElem.alt = "Imagem";
+                imageElem.style.width = "250px";
+                imageElem.style.height = "150px"
+                imageElem.style.marginTop = "60px";
+                imageElem.style.position = "absolute";
+                imageElem.style.left = "650px"
+
+                questionElem.appendChild(imageElem);
+
+                resultElem.innerHTML = "Tentativas restantes:" + remainingAttempts + " | Pontuação:" + score;
+            } else {
+                document.getElementById("quiz-container").innerHTML = "<h1>Fim do Quiz</h1>";
+            }
+        }
+
+        function checkAnswer(selectedAnswer) {
+            if (selectedAnswer === questions[currentQuestion].answer) {
+                score += 20;
+                currentQuestion++;
+                remainingAttempts = 3; 
+                loadQuestion();
+            } else {
+                remainingAttempts--;
+                if (remainingAttempts === 0) {
+                    document.getElementById("quiz-container").innerHTML = "<h1>Fim do Quiz</h1>";
+                } else {
+                    alert("Resposta incorreta! Tente novamente.");
+                    loadQuestion();
+                }
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
